@@ -5,7 +5,7 @@ This is a work in progress for a mini-book.  It started out to be a one-page int
 
 This is meant to be a collaborative effort and I will gladly give credit to anyone who helps, even to just point out typos.  To contribute please submit issues to this project.
 
-I am not kidding when I say in the book that I am also a beginner, learning CoffeeKup as I write this.  I don't yet understand coffekup very well, especially in the sections that are unwritten.  So please let me know when I am passing along false information or when I am missing something that should I've left out that should be said.
+I am not kidding when I say in the book that I am also a beginner, learning CoffeeKup as I write this.  I don't yet understand CoffeeKup very well, especially in the sections that are unwritten.  So please let me know when I am passing along false information or when I am missing something that I've left out that should be said.
 
 The actual book follows.  I have only completed the first section so far which will be the longest and probably the hardest. 
 
