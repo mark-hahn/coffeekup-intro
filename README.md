@@ -42,18 +42,16 @@ So how did `head ->` become `<head>`?  And where does the output come from? Ther
 
 The top part of the added code defines a lot of things, the most important of which are the functions who share their names with all the possible HTML tags. These functions, when executed, generate the associated HTML code and append it to a buffer, also defined in the invisible code, that accumulates all of the output HTML. When all of your template code has been executed, the buffer containing the complete HTML is then returned as output by an invisible `return buffer` statement added to the bottom of the template.
 
-Let's walk through the execution of the Hello World template code.  First the `head` function is called with the `title` function as an argument. The `head` function adds the `<head>` text to the buffer, then calls the `title` function which adds it's own html to the buffer, and finally adds the closing `</head>`.  
+Let's walk through the execution of the Hello World template code.  First the `head` function is called with the `title` function as an argument. The `head` function adds the `<head>` text to the buffer, then calls the `title` function which adds it's own HTML to the buffer, and finally adds the closing `</head>`.  
 
 The `title` function was called with `"Hello World"` as its only argument. In a case like this, the function only had to wrap `<title>` and `</title>` around the string it was passed and add the whole thing to the buffer.  The `body` function did the same thing as the `head` function except that the function passed to it added nothing to the output buffer.
 
 So the "tag" functions create all the resulting HTML by adding their arguments to the output buffer while executing the function arguments to create the nesting.  Quite elegant, yes?
 
-If this was all there was to KoffeeKup then it would already be quite useful as a way to write all your HTML in a concise way. No more adding all those nasty closing tags. But wait, there's more ...
-
 Adding Attributes 
 ---
 
-We know how to put anything we want for the inner html for a tag.  You just include an arbitrary string as an argument to the tag function.  But how do you put attributes inside the tag itself?  Luckily that is very easy.  Check this out ...
+We know how to insert anything we want for the inner HTML of a tag.  We need only include an arbitrary string as an argument to the tag function.  But how do you put attributes inside the tag itself?  Luckily that is very easy.  Check this out ...
 
 	div id:"ugly-box", style:"width:90px, height:90px, background-color: purple, border: 5px green"
 
@@ -72,14 +70,14 @@ Let's look at this more complicated example which ties everything we know togeth
 	  <span color="green">And I'm ugly text</span>
 	</div>
 
-Now it is starting to look like real html you'd find on an ugly web page.  
+Now it is starting to look like real HTML you'd find on an ugly web page.  
 
 Did you notice the parentheses around `color:"green"`?  In older versions of coffeescript this is needed so that the string after it is not treated as part of the hash.  The newest versions of CoffeeScript have changed the rules so this isn't needed.  I'm going to assume the latest version of CoffeeScript in the following examples to keep them prettier.  As of this writing the KoffeeKup online trial page uses an older version of CoffeeScript.  So add the parentheses before trying them out there.
 
 Lonely Text
 ---
 
-At this point in my use of KoffeeKup I was starting to think I knew how to generate any html, but then I ran into a stumbling block. I needed to put some text between tags and not inside a tag.  This is a hole in the KoffeeKup logic described so far, but the hole has been filled with a fake tag named `text` ...
+At this point in my use of KoffeeKup I was starting to think I knew how to generate any HTML, but then I ran into a stumbling block. I needed to put some text between tags and not inside a tag.  This is a hole in the KoffeeKup logic described so far, but the hole has been filled with a fake tag named `text` ...
 
 	span color:"red", "I'm bright red!"
 	text "I'm boring black"
@@ -91,10 +89,66 @@ At this point in my use of KoffeeKup I was starting to think I knew how to gener
 
 The `text` tag (function) just adds whatever text is in its string argument to the output buffer.  If we removed `text` from the beginning of the middle line, that line with only the string would be legal CoffeeScript, and the template would execute without error, but the text would be lost because there would be no function to add it to the output buffer.
 
-Before we leave the discussion of general text I'd like to point something out. Whether it is a string argument to a real tag like `div`, or a string argument to the fake `text` tag, a string can contain any text, even html.  We will learn how to use this to our advantage in the section _The Great Escape_.
+Before we leave the discussion of general text I'd like to point something out. Whether it is a string argument to a real tag like `div`, or a string argument to the fake `text` tag, a string can contain any text, even HTML.  We will learn how to use this to our advantage in the section _The Great Escape_.
 
-Variables, Conditionals, Loops, And Functions Galore
+Variables, Conditionals, and Loops
 ---
+
+If this was all there was to KoffeeKup then it would already be quite useful as a way to write all your HTML in a concise way. No more adding all those nasty closing tags. But wait, there's more ...
+
+As you might have guessed, because KoffeeKup is executing arbitrary CoffeeScript code, there are a lot of fancy things we can do other than just generate static HTML.  Let's look at another example ...
+ 
+	if true
+		for i in [2..4]
+			p -> 
+				text "I want #{i} hamburgers"
+			
+	<p>I want 2 hamburgers</p>
+	<p>I want 3 hamburgers</p>
+	<p>I want 4 hamburgers</p>
+
+First note that the entire snippet is conditional on the `if` statement evaluating to `true`.  If you changed `true` to `false` then this example would not output anything.  This is easy to understand since code must execute to add things to the output buffer.  This example is good at showing how KoffeeKup is just CoffeeScript code executing with no magic happening behind the scenes, except for the magical output buffer.
+
+The `for` loop simply executes its block of code, which happens to output a paragraph of text.  It executes it three times so that block of code added its HTML to the buffer three times.
+
+Note also the use of the variable `i` in the text string. It is evaluated and added to the string, which is called interpolation.  The syntax `#{i}` that mixes it in is straight CoffeeScript.  Once again KoffeeKup got a cool feature for free from CoffeeScript.  It looks almost like a more traditional template syntax such as _mustache_, which would have {{i}}.  Remember that this CoffeeScript interpolation only works inside double quotes `"`, not single.
+
+Variables can be defined and used freely in your KoffeeKup template.  In a later section, _Running In Context_, we will see that variables can be used that are defined outside of the template.
+
+Cool Formatting
+---
+
+If you are fluent in CoffeeScript, then this will be obvious, but there are cool ways to clean up the last example.  There are two or three CoffeeScript features that can be used to turn the four-line example above into this one-liner ...
+
+		(p -> text "I want #{i} hamburgers") for i in [2..4] unless false
+			
+		<p>I want 2 hamburgers</p>
+		<p>I want 3 hamburgers</p>
+		<p>I want 4 hamburgers</p>
+
+If you don't see how to do this, then go do the next lesson in your CoffeeScipt class.  We'll be waiting here until you get back.
+
+
+Tag Function Conjunction
+---
+
+Let's step back and look at how tag functions work with different types of arguments.
+
+There are three types of arguments that can be passed to a tag function.  They are an object (hash), a function, and simple types like strings, numbers, true, false, etc.  You should know by now what each one of these does ...
+
+- *object*: Any object that is an argument of a tag function specifies the attributes
+
+- *function*: Executes code that adds HTML to the output buffer.  The tag function adds its text like `<script>` to the output buffer, then runs the function, and then adds its closing text like `</script>` afterwards. The HTML that function argument adds to the output buffer is _nested_ inside the begin/end tags, as inner HTML. So the nesting of tag functions creates the resulting HTML nesting. 
+
+- *string and friends*: These are all converted to strings and directly added to the output buffer. You should know that, by default, HTML entity characters are escaped. See _The Great Escape_ section.
+
+You might be wondering what the remaining type of javascript variable, the `array`, does.  It is treated exactly like an `object`, which happens to create useless attributes ...
+
+	div ['a','b']
+	
+	<div 0="a" 1="b"></div>
+
+Maybe some smart person will figure out a cool use for arrays in CoffeeKup.
 
 Running In Context
 ---
