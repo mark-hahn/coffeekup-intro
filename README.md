@@ -11,7 +11,7 @@ The actual book follows.  I have only completed the first section so far which w
 
 --------
 
-A Beginners's Intoduction to CoffeeKup 
+A Beginners's Introduction to CoffeeKup 
 ===
 By Mark Hahn
 
