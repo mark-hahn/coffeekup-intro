@@ -1,4 +1,4 @@
-A Beginners's Intoduction to CoffeeKup 
+A Beginners's Introduction to CoffeeKup 
 ===
 
 This is a work in progress for a mini-book.  It started out to be a one-page introduction but I found it was easier to write something longer.  It takes less thinking.
@@ -15,11 +15,11 @@ A Beginners's Intoduction to CoffeeKup
 ===
 By Mark Hahn
 
-KoffeeKup uses a simple scheme to provide a concise, expressive, easy-to-read, and time-saving HTML templating solution. It is based on the CoffeeScript language, with which you will need to be familiar.  If you aren't already hooked on CoffeeScript then visit http://coffeescript.org first to find out what you are missing. Then come back here to also get hooked on CoffeeKup.
+CoffeeKup uses a simple scheme to provide a concise, expressive, easy-to-read, and time-saving HTML templating solution. It is based on the CoffeeScript language, with which you will need to be familiar.  If you aren't already hooked on CoffeeScript then visit http://coffeescript.org first to find out what you are missing. Then come back here to also get hooked on CoffeeKup.
 
-This introduction is for CoffeeKup beginners like myself (I'm learning it as I write this). Let's go through this together step by step.  Once you complete this I suggest you go to CoffeeKup's [github page] (https://github.com/mauricemach/coffeekup) to learn more. Currently the only discussion of KoffeeKup is on CoffeeKup's [issues page] (https://github.com/mauricemach/coffeekup/issues?sort=created&direction=desc).
+This introduction is for CoffeeKup beginners like myself (I'm learning it as I write this). Let's go through this together step by step.  Once you complete this I suggest you go to CoffeeKup's [github page] (https://github.com/mauricemach/coffeekup) to learn more. Currently the only discussion of CoffeeKup is on CoffeeKup's [issues page] (https://github.com/mauricemach/coffeekup/issues?sort=created&direction=desc).
 
-Unlike most tutorials I will not need to help you install KoffeeKup to follow along with the examples. I will give the results of the template with each example. You might also want to bring up http://coffeekup.org in another window and paste these examples into the left pane.  This will allow you to play around with the template and see the results immediately. (This also makes a great tool to use while you are writing your own CoffeeKup code).
+Unlike most tutorials I will not need to help you install CoffeeKup to follow along with the examples. I will give the results of the template with each example. You might also want to bring up http://coffeekup.org in another window and paste these examples into the left pane.  This will allow you to play around with the template and see the results immediately. (This also makes a great tool to use while you are writing your own CoffeeKup code).
 
 Let's Get Started - Hello World
 ---
@@ -36,7 +36,7 @@ First our mandatory friend, Hello World.  In each example the CoffeeKup template
 	<body>
 	</body>
 
-First of all, note that the template code is real CoffeeScript code. KoffeeKup _is_ CoffeeScript. Except for some important CoffeeScript code added invisibly to the top and bottom of the template, the coffescript you write in the template is executed directly to render the output. This is very different from most template engines and is the reason KoffeeKup offers all the great features mentioned at the beginning.
+First of all, note that the template code is real CoffeeScript code. CoffeeKup _is_ CoffeeScript. Except for some important CoffeeScript code added invisibly to the top and bottom of the template, the coffescript you write in the template is executed directly to render the output. This is very different from most template engines and is the reason CoffeeKup offers all the great features mentioned at the beginning.
 
 So how did `head ->` become `<head>`?  And where does the output come from? There is nothing like a `write` function in the template to send out the results. And how did `</head>` appear out of thin air?  The secret ingredient in the coffee recipe is the extra code that was mentioned above.
 
@@ -59,7 +59,7 @@ We know how to insert anything we want for the inner HTML of a tag.  We need onl
 		 style="width:100px, height:100px, background-color: purple, border: 5px green">
 	</div>
 
-Any `object` (aka `hash`) used as an argument to a tag function is interpreted as a set of attributes.  The hash keys are the attribute names and the hash values are the attribute values.  In coffescript hashes are created easily and they are perfect for KoffeeKup's attributes.
+Any `object` (aka `hash`) used as an argument to a tag function is interpreted as a set of attributes.  The hash keys are the attribute names and the hash values are the attribute values.  In coffescript hashes are created easily and they are perfect for CoffeeKup's attributes.
 
 Let's look at this more complicated example which ties everything we know together ...
 
@@ -72,12 +72,12 @@ Let's look at this more complicated example which ties everything we know togeth
 
 Now it is starting to look like real HTML you'd find on an ugly web page.  
 
-Did you notice the parentheses around `color:"green"`?  In older versions of coffeescript this is needed so that the string after it is not treated as part of the hash.  The newest versions of CoffeeScript have changed the rules so this isn't needed.  I'm going to assume the latest version of CoffeeScript in the following examples to keep them prettier.  As of this writing the KoffeeKup online trial page uses an older version of CoffeeScript.  So add the parentheses before trying them out there.
+Did you notice the parentheses around `color:"green"`?  In older versions of coffeescript this is needed so that the string after it is not treated as part of the hash.  The newest versions of CoffeeScript have changed the rules so this isn't needed.  I'm going to assume the latest version of CoffeeScript in the following examples to keep them prettier.  As of this writing the CoffeeKup online trial page uses an older version of CoffeeScript.  So add the parentheses before trying them out there.
 
 Lonely Text
 ---
 
-At this point in my use of KoffeeKup I was starting to think I knew how to generate any HTML, but then I ran into a stumbling block. I needed to put some text between tags and not inside a tag.  This is a hole in the KoffeeKup logic described so far, but the hole has been filled with a fake tag named `text` ...
+At this point in my use of CoffeeKup I was starting to think I knew how to generate any HTML, but then I ran into a stumbling block. I needed to put some text between tags and not inside a tag.  This is a hole in the CoffeeKup logic described so far, but the hole has been filled with a fake tag named `text` ...
 
 	span color:"red", "I'm bright red!"
 	text "I'm boring black"
@@ -94,9 +94,9 @@ Before we leave the discussion of general text I'd like to point something out. 
 Variables, Conditionals, and Loops
 ---
 
-If this was all there was to KoffeeKup then it would already be quite useful as a way to write all your HTML in a concise way. No more adding all those nasty closing tags. But wait, there's more ...
+If this was all there was to CoffeeKup then it would already be quite useful as a way to write all your HTML in a concise way. No more adding all those nasty closing tags. But wait, there's more ...
 
-As you might have guessed, because KoffeeKup is executing arbitrary CoffeeScript code, there are a lot of fancy things we can do other than just generate static HTML.  Let's look at another example ...
+As you might have guessed, because CoffeeKup is executing arbitrary CoffeeScript code, there are a lot of fancy things we can do other than just generate static HTML.  Let's look at another example ...
  
 	if true
 		for i in [2..4]
@@ -107,13 +107,13 @@ As you might have guessed, because KoffeeKup is executing arbitrary CoffeeScript
 	<p>I want 3 hamburgers</p>
 	<p>I want 4 hamburgers</p>
 
-First note that the entire snippet is conditional on the `if` statement evaluating to `true`.  If you changed `true` to `false` then this example would not output anything.  This is easy to understand since code must execute to add things to the output buffer.  This example is good at showing how KoffeeKup is just CoffeeScript code executing with no magic happening behind the scenes, except for the magical output buffer.
+First note that the entire snippet is conditional on the `if` statement evaluating to `true`.  If you changed `true` to `false` then this example would not output anything.  This is easy to understand since code must execute to add things to the output buffer.  This example is good at showing how CoffeeKup is just CoffeeScript code executing with no magic happening behind the scenes, except for the magical output buffer.
 
 The `for` loop simply executes its block of code, which happens to output a paragraph of text.  It executes it three times so that block of code added its HTML to the buffer three times.
 
-Note also the use of the variable `i` in the text string. It is evaluated and added to the string, which is called interpolation.  The syntax `#{i}` that mixes it in is straight CoffeeScript.  Once again KoffeeKup got a cool feature for free from CoffeeScript.  It looks almost like a more traditional template syntax such as _mustache_, which would have {{i}}.  Remember that this CoffeeScript interpolation only works inside double quotes `"`, not single.
+Note also the use of the variable `i` in the text string. It is evaluated and added to the string, which is called interpolation.  The syntax `#{i}` that mixes it in is straight CoffeeScript.  Once again CoffeeKup got a cool feature for free from CoffeeScript.  It looks almost like a more traditional template syntax such as _mustache_, which would have {{i}}.  Remember that this CoffeeScript interpolation only works inside double quotes `"`, not single.
 
-Variables can be defined and used freely in your KoffeeKup template.  In a later section, _Running In Context_, we will see that variables can be used that are defined outside of the template.
+Variables can be defined and used freely in your CoffeeKup template.  In a later section, _Running In Context_, we will see that variables can be used that are defined outside of the template.
 
 Cool Formatting
 ---
