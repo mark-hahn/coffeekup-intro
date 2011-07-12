@@ -136,11 +136,11 @@ Let's step back and look at how tag functions work with different types of argum
 
 There are three types of arguments that can be passed to a tag function.  They are an object (hash), a function, and simple types like strings, numbers, true, false, etc.  You should know by now what each one of these does ...
 
-- *object*: Any object that is an argument of a tag function specifies the attributes
+- **object**: Any object that is an argument of a tag function specifies the attributes for that tag.
 
-- *function*: Executes code that adds HTML to the output buffer.  The tag function adds its text like `<script>` to the output buffer, then runs the function, and then adds its closing text like `</script>` afterwards. The HTML that function argument adds to the output buffer is _nested_ inside the begin/end tags, as inner HTML. So the nesting of tag functions creates the resulting HTML nesting. 
+- **function**: Executes code that adds HTML to the output buffer.  The tag function adds its text like `<script>` to the output buffer, then runs the function, and then adds its closing text like `</script>` afterwards. The HTML that function argument adds to the output buffer is _nested_ inside the begin/end tags, as inner HTML. So the nesting of tag functions creates the resulting HTML nesting. 
 
-- *string and friends*: These are all converted to strings and directly added to the output buffer. You should know that, by default, HTML entity characters are escaped. See _The Great Escape_ section.
+- **string and friends**: These are all converted to strings and directly added to the output buffer. You should know that, by default, HTML entity characters are escaped. See _The Great Escape_ section.
 
 You might be wondering what the remaining type of javascript variable, the `array`, does.  It is treated exactly like an `object`, which happens to create useless attributes ...
 
