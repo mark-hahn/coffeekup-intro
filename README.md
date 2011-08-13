@@ -24,7 +24,7 @@ First our mandatory friend, Hello World.  In each example the CoffeeKup template
 	<body>
 	</body>
 
-First of all, note that the template code is real CoffeeScript code. CoffeeKup _is_ CoffeeScript. Except for some important CoffeeScript code added invisibly to the top and bottom of the template, the coffescript you write in the template is executed directly to render the output. This is very different from most template engines and is the reason CoffeeKup offers all the great features mentioned at the beginning.
+First of all, note that the template code is real CoffeeScript code. CoffeeKup _is_ CoffeeScript. Except for some important CoffeeScript code added invisibly to the top and bottom of the template, the CoffeeScript you write in the template is executed directly to render the output. This is very different from most template engines and is the reason CoffeeKup offers all the great features mentioned at the beginning.
 
 So how did `head ->` become `<head>`?  And where does the output come from? There is nothing like a `write` function in the template to send out the results. And how did `</head>` appear out of thin air?  The secret ingredient in the coffee recipe is the extra code that was mentioned above.
 
@@ -47,7 +47,7 @@ We know how to insert anything we want for the inner HTML of a tag.  We need onl
 		 style="width:100px, height:100px, background-color: purple, border: 5px green">
 	</div>
 
-Any `object` (aka `hash`) used as an argument to a tag function is interpreted as a set of attributes.  The hash keys are the attribute names and the hash values are the attribute values.  In coffescript hashes are created easily and they are perfect for CoffeeKup's attributes.
+Any `object` (aka `hash`) used as an argument to a tag function is interpreted as a set of attributes.  The hash keys are the attribute names and the hash values are the attribute values.  In CoffeeScript hashes are created easily and they are perfect for CoffeeKup's attributes.
 
 Let's look at this more complicated example which ties everything we know together ...
 
@@ -60,7 +60,7 @@ Let's look at this more complicated example which ties everything we know togeth
 
 Now it is starting to look like real HTML you'd find on an ugly web page.  
 
-Did you notice the parentheses around `color:"green"`?  In older versions of coffeescript this is needed so that the string after it is not treated as part of the hash.  The newest versions of CoffeeScript have changed the rules so this isn't needed.  I'm going to assume the latest version of CoffeeScript in the following examples to keep them prettier.  As of this writing the CoffeeKup online trial page uses an older version of CoffeeScript.  So add the parentheses before trying them out there.
+Did you notice the parentheses around `color:"green"`?  In older versions of CoffeeScript this is needed so that the string after it is not treated as part of the hash.  The newest versions of CoffeeScript have changed the rules so this isn't needed.  I'm going to assume the latest version of CoffeeScript in the following examples to keep them prettier.  As of this writing the CoffeeKup online trial page uses an older version of CoffeeScript.  So add the parentheses before trying them out there.
 
 Lonely Text
 ---
@@ -144,10 +144,10 @@ So great, we have this CoffeeScript that executes and produces our html.  But ho
 
 First we need to get the CoffeeKup module loaded.  CoffeeKup (actually CoffeeScript) compiles to vanilla JavaScript so it can run anywhere JavaScript is available.  I've only run it in Node and the Browser so let's consider those environments.  Note that the same CoffeeKup JavaScript file runs without change in either environment thanks to some fancy footwork.  
 
-I'll assume you know how to install coffekup.  You should know how to install modules in node using `npm` and/or in the browser using the `<script>` tag. Then include it in your app ...
+I'll assume you know how to install CoffeeKup.  You should know how to install modules in node using `npm` and/or in the browser using the `<script>` tag. Then include it in your app ...
 
     # in node
-    coffeekup = require 'koffeecup'
+    coffeekup = require 'coffeekup'
     
     # in the browser
     coffeekup = window.CoffeeKup
@@ -177,15 +177,15 @@ So putting it all together (in the browser) ...
 	
 Or if you are maniac who likes unreadable source files ...
 
-	$('body').append CoffeeKup.render -> div style:'font-size:96px', 'Hello World'
+	$('body').append coffeekup.render -> div style:'font-size:96px', 'Hello World'
 	
-This tiny code will display those giant words.  You might wonder though, how can we use the `div` function when it was never defined?  Surely it isn't defined as a global by CoffeeKup?  That would be uncool, and to be proper coding style it would need to be `CoffeeKup.div`, which kind of defeats the purpose of CoffeeKup.  It also can't be a local which would have required an `eval` somewhere.
+This tiny code will display those giant words.  You might wonder though, how can we use the `div` function when it was never defined?  Surely it isn't defined as a global by CoffeeKup?  That would be uncool, and to be proper coding style it would need to be `coffeekup.div`, which kind of defeats the purpose of CoffeeKup.  It also can't be a local which would have required an `eval` somewhere.
 
-The answer is that `div` is inside a function that is only defined and not executed before it is passed as an argument to `CoffeeKup.render`.  From there, `render` "compiles" the function.  It does this by using the wonderful `toString()` function to get the original source code.  Then it adds the magic code to the beginning and end of the source, as described in the first section above.  And finally it turns it back into a function using `new Function srcCode`.  Now we have a function that includes the definition for `div` so the problem is solved.  Note that this "compiling" turns a function into another function, which is why I put the quotes around the word "compile".  I'll leave them out to save typing from here on.
+The answer is that `div` is inside a function that is only defined and not executed before it is passed as an argument to `coffeekup.render`.  From there, `render` "compiles" the function.  It does this by using the wonderful `toString()` function to get the original source code.  Then it adds the magic code to the beginning and end of the source, as described in the first section above.  And finally it turns it back into a function using `new Function srcCode`.  Now we have a function that includes the definition for `div` so the problem is solved.  Note that this "compiling" turns a function into another function, which is why I put the quotes around the word "compile".  I'll leave them out to save typing from here on.
 
-`CoffeeKup.render helloTemplate` calls `CoffeeKup.compile helloTemplate` to produce this tricked-out function.  Then simply executing the new compiled function renders the html.  
+`coffeekup.render helloTemplate` calls `coffeekup.compile helloTemplate` to produce this tricked-out function.  Then simply executing the new compiled function renders the html.  
 
-You can do `compiledFunc = CoffeeKup.compile helloTemplate` yourself and keep the compiled template function around for speedy rendering.  Later, just execute `compiledFunc()` to get the coveted html.  You can also just let `CoffeeKup.render` do this for you.  By default, `render` keeps a copy of each compiled template in a cache and uses the compiled version when available.  I've always used this option.
+You can do `compiledFunc = coffeekup.compile helloTemplate` yourself and keep the compiled template function around for speedy rendering.  Later, just execute `compiledFunc()` to get the coveted html.  You can also just let `coffeekup.render` do this for you.  By default, `render` keeps a copy of each compiled template in a cache and uses the compiled version when available.  I've always used this option.
 
 Keeping Things In Context
 ---
@@ -199,13 +199,13 @@ Feels quite natural, right?  Well all I got for my trouble was an exception sayi
 
 This is another dirty little secret of CoffeeKup.  If you are an advanced JavaScript programmer then you might have noticed that the compile operation covered in the last section destroys all closures for the helloTemplate function.  Changing it to source and back to a function tends to do that.  So later when the compiled template function ran, the var `fontSize` was not in scope.  What to do, what to do.
 
-The complete signature for `CoffeeKup.render` is `CoffeeKup.render template, options`.  The options argument can contain a lot of properties, but the one we need here is a hash `options.locals`.  Every key, value pair in the `options.locals` object is turned into a local var in the compile process.  The source code `key = value` is added with the magic code before your template code.  This creates locals to the compiled template function, hence the name.  Now I can do ...
+The complete signature for `coffeekup.render` is `coffeekup.render template, options`.  The options argument can contain a lot of properties, but the one we need here is a hash `options.locals`.  Every key, value pair in the `options.locals` object is turned into a local var in the compile process.  The source code `key = value` is added with the magic code before your template code.  This creates locals to the compiled template function, hence the name.  Now I can do ...
 
 	fontSize = 96
 	helloTemplate = -> 
 		div style:"font-size:#{fontSize}px", 'Hello World'
 
-	CoffeeKup.render helloTemplate, locals: {fontSize}
+	coffeekup.render helloTemplate, locals: {fontSize}
 	
 This passes fontSize into the compile operation making it avalable as a local and now my code works.  I tend to use the CoffeeScript shortcut `{fontSize, a, b, c}` a lot.  This creates `{fontSize:fontSize, a:a, b:b, c:c}`.  So now `fontSize`, `a`, `b`, and `c` are "passed in" to the template to be available as a local.
 
@@ -213,11 +213,11 @@ Time for another wrench in the works.  What happens if you change the value of f
 	
 Another option, `dynamic_locals`, comes to the rescue.  Setting `options.dynamic_locals` to true causes all the locals passed in through `options.locals` to be able to change between uses of the compiled template.  I have personally not used this feature for two reasons.  One is that I've never used a compiled template more than once (duh).  But a more serious reason is that `dynamic_locals` works its magic by enclosing all the template code in a JavaScript `with` statement.  I'm sure you've heard the experts whine about how evil the `with` statement is.  Well, even if you disagree with them (as I do) then you should still consider that the upcoming `strict` context will not allow any `with` statement at all.  It might be nice to use strict in the future.
 
-I should also mention that you can define another option object, called `options.context`, that makes locals available to the template like `options.locals` does.  This is passed in as the context to the compiled function so the values are available on the `this` object, or `@` as we CoffeScript nuts know it.  So `@fontSize` could be used.  Some might consider this safer from a namespace standpoint and/or more readable as it makes the passed-in locals stand out.
+I should also mention that you can define another option object, called `options.context`, that makes locals available to the template like `options.locals` does.  This is passed in as the context to the compiled function so the values are available on the `this` object, or `@` as we CoffeeScript nuts know it.  So `@fontSize` could be used.  Some might consider this safer from a namespace standpoint and/or more readable as it makes the passed-in locals stand out.
 
 The Option To Use Options
 ---
-Let's cover all options here in this one convenient section.  Remember that the signature for `CoffeeKup.render` is `CoffeeKup.render template, options`.  Here is the list of all available options as of this writing ...
+Let's cover all options here in this one convenient section.  Remember that the signature for `coffeekup.render` is `coffeekup.render template, options`.  Here is the list of all available options as of this writing ...
 
 - `options.locals`: An object containing key/value pairs to be passed in to the template as constants.  See the last section.
 
@@ -250,5 +250,5 @@ I'm sure I've missed some topics other than just helpers.  Leave an issue on [th
 
 Credit Where Credit Is Due
 ---
-Of course the most credit goes to Maurice Machado, aka [@mauricemach] (https://github.com/mauricemach) who wrote CoffeeKup.  Maurice (and we) are indebted to Tim Fletcher (and why the lucky stiff {is that a person?}) who wrote Markaby ("Markup as Ruby") the predecessor and inspiration for CoffeeKup.  Let me know of any contributors I've missed.  You can add yourself to this list by helping with this document.  All it takes is a spelling correction.  So far my only spelling correction came from Maurice, who pointed out that I spelled CoffeKup as KoffeeKup everywhere.  It figures that I'd mispell the thing I'm writing about.
+Of course the most credit goes to Maurice Machado, aka [mauricemach] (https://github.com/mauricemach) who wrote CoffeeKup.  Maurice (and we) are indebted to Tim Fletcher (and why the lucky stiff {is that a person?}) who wrote Markaby ("Markup as Ruby") the predecessor and inspiration for CoffeeKup.  Let me know of any contributors I've missed.  You can add yourself to this list by helping with this document.  All it takes is a spelling correction.  So far my only spelling correction came from Maurice, who pointed out that I spelled CoffeeKup as KoffeeKup everywhere.  It figures that I'd mispell the thing I'm writing about.
 
