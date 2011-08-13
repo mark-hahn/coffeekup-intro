@@ -240,7 +240,7 @@ I mentioned earlier in the section _Lonely Text_ that text added with CoffeeCup 
 	
 In order to do this, you must make sure the `autoescape` option is `off` (`false`).  Otherwise you will be surprised, as I was, to see the html code in your web page.
 
-Waht the heck are Helpers, Express, Zappa, and Meryl?
+What the heck are Helpers, Express, Zappa, and Meryl?
 ---
 No, seriously, I don't know what these are. (I do know who Zappa was.  He was one of my favorites in the good old days).  Someone needs to explain them to me as I am too lazy to Google them.  Better yet, please issue a Pull Request to add explanations of them to this document.
 
