@@ -1,15 +1,3 @@
-A Beginners's Introduction to CoffeeKup 
-===
-
-This is a work in progress for a mini-book.  It started out to be a one-page introduction but I found it was easier to write something longer.  It takes less thinking.
-
-This is meant to be a collaborative effort and I will gladly give credit to anyone who helps, even to just point out typos.  To contribute please submit issues or pull requests to this project.
-
-I am not kidding when I say in the book that I am also a beginner, learning CoffeeKup as I write this.  I don't yet understand CoffeeKup very well, especially in the sections that are unwritten.  So please let me know when I am passing along false information or when I am missing something that I've left out that should be said.
-
-The actual book follows.  I have only completed the first section so far which will be the longest and probably the hardest. 
-
---------
 
 A Beginners's Introduction to CoffeeKup 
 ===
@@ -89,7 +77,7 @@ At this point in my use of CoffeeKup I was starting to think I knew how to gener
 
 The `text` tag (function) just adds whatever text is in its string argument to the output buffer.  If we removed `text` from the beginning of the middle line, that line with only the string would be legal CoffeeScript, and the template would execute without error, but the text would be lost because there would be no function to add it to the output buffer.
 
-Before we leave the discussion of general text I'd like to point something out. Whether it is a string argument to a real tag like `div`, or a string argument to the fake `text` tag, a string can contain any text, even HTML.  We will learn how to use this to our advantage in the section _The Great Escape_.
+Before we leave the discussion of general text I'd like to point something out. Whether it is a string argument to a real tag like `div`, or a string argument to the fake `text` tag, a string can contain any text, even HTML.  We will learn how to use this to our advantage in the section _Homemade Html_.
 
 Variables, Conditionals, and Loops
 ---
@@ -126,7 +114,7 @@ If you are fluent in CoffeeScript, then this will be obvious, but there are cool
 		<p>I want 3 hamburgers</p>
 		<p>I want 4 hamburgers</p>
 
-If you don't see how to do this, then go do the next lesson in your CoffeeScipt class.  We'll be waiting here until you get back.
+If you don't see how this works, then go do the next lesson in your CoffeeScipt class.  We'll be waiting here until you get back.
 
 
 Tag Function Conjunction
@@ -140,7 +128,7 @@ There are three types of arguments that can be passed to a tag function.  They a
 
 - **function**: Executes code that adds HTML to the output buffer.  The tag function adds its text like `<script>` to the output buffer, then runs the function, and then adds its closing text like `</script>` afterwards. The HTML that function argument adds to the output buffer is _nested_ inside the begin/end tags, as inner HTML. So the nesting of tag functions creates the resulting HTML nesting. 
 
-- **string and friends**: These are all converted to strings and directly added to the output buffer. You should know that, by default, HTML entity characters are escaped. See _The Great Escape_ section.
+- **string and friends**: These are all converted to strings and directly added to the output buffer. You should know that, by default, HTML entity characters are not escaped. See the _Homemade Html_ section.
 
 You might be wondering what the remaining type of javascript variable, the `array`, does.  It is treated exactly like an `object`, which happens to create useless attributes ...
 
@@ -150,24 +138,114 @@ You might be wondering what the remaining type of javascript variable, the `arra
 
 Maybe some smart person will figure out a cool use for arrays in CoffeeKup.
 
-Running In Context
+Cool Running
 ---
+So great, we have this CoffeeScript that executes and produces our html.  But how do we actually get this to happen in our app?  It's not going to happen by itself.
 
-Helpers To The Rescue
----
+First we need to get the CoffeeKup module loaded.  CoffeeKup (actually CoffeeScript) compiles to vanilla JavaScript so it can run anywhere JavaScript is available.  I've only run it in Node and the Browser so let's consider those environments.  Note that the same CoffeeKup JavaScript file runs without change in either environment thanks to some fancy footwork.  
 
-The Great Escape
----
+I'll assume you know how to install coffekup.  You should know how to install modules in node using `npm` and/or in the browser using the `<script>` tag. Then include it in your app ...
 
-Options, Options, And Options
----
+    # in node
+    coffeekup = require 'koffeecup'
+    
+    # in the browser
+    coffeekup = window.CoffeeKup
 
-Running Fast
+The `coffeekup` namespace object you just created has the functions you need to run and a lot of other usefull stuff as properties.  Of course you can use any name for the namespace object, but we'll stick with `coffeekup` here. 
+
+Next, we need to include our CoffeeKup template.  This is just a function assigned to a var.  Lets use a new simpler hello world example ...
+
+	helloTemplate = -> 
+		div style:'font-size:96px', 'Hello World'
+
+Even people my age are going to be able to read that.
+
+Now we need to execute our template function using a special function, `coffeekup.render`.  This renders the desired html.
+
+    helloHtml = coffeekup.render helloTemplate
+
+That was easy.  I'm sure you can figure out how to use the html in `helloHtml`.  In node you do something like `result.write helloHtml` and in the browser you can stick it in the dom (where the sun never shines), `$('body').append helloHtml`.  This assumes jQuery is present.  If you don't have jQuery then don't look to me for help.  I learned jQuery at the same time I learned JavaScript so I'm useless without it.
+
+So putting it all together (in the browser) ...
+
+	coffeekup = window.CoffeeKup
+	helloTemplate = -> 
+		div style:'font-size:96px', 'Hello World'
+	helloHtml = coffeekup.render helloTemplate
+	$('body').append helloHtml
+	
+Or if you are maniac who likes unreadable source files ...
+
+	$('body').append CoffeeKup.render -> div style:'font-size:96px', 'Hello World'
+	
+This tiny code will display those giant words.  You might wonder though, how can we use the `div` function when it was never defined?  Surely it isn't defined as a global by CoffeeKup?  That would be uncool, and to be proper coding style it would need to be `CoffeeKup.div`, which kind of defeats the purpose of CoffeeKup.  It also can't be a local which would have required an `eval` somewhere.
+
+The answer is that it is inside a function that is only defined and not executed before it is passed as an argument to `CoffeeKup.render`.  From there, `render` "compiles" the function.  It does this by using the wonderful `toString()` function to get the original source code.  Then it adds the magic code to the beginning and end of the source, as described in the first section above.  And finally it turns it back into a function using `new Function srcCode`.  Now we have a function that includes the definition for `div` so the problem is solved.  Note that this "compiling" turns a function into another function, which is why I put the quotes around the word "compile".  I'll leave them out to save typing from here on.
+
+`CoffeeKup.render helloTemplate` calls `CoffeeKup.compile helloTemplate` to produce this tricked-out function.  Then simply executing the new compiled function renders the html.  
+
+You can do `compiledFunc = CoffeeKup.compile helloTemplate` yourself and keep the compiled template function around for speedy rendering later.  Later, just execute `compiledFunc()` to get the coveted html.  You can also just let `CoffeeKup.render` do this for you.  By default, `render` keeps a copy of each compiled template in a cache and uses the compiled version when available.  I've always used this option.
+
+Keeping Things In Context
 ---
+When I first used CoffeeKup I tried code like this ...
+
+	fontSize = 96
+	helloTemplate = -> 
+		div style:"font-size:#{fontSize}px", 'Hello World'
+		
+Feels quite natural, right?  Well all I got for my trouble was an exception saying `fontSize` was undefined.
+
+This is another dirty little secret of CoffeeKup.  If you are an advanced JavaScript programmer then you might have noticed that the compile operation covered in the last section destroys all closures for the helloTemplate function.  Changing it to source and back to a function tends to do that.  So later when the compiled template function ran, the var `fontSize` was not in scope.  What to do, what to do.
+
+The complete signature for `CoffeeKup.render` is `CoffeeKup.render template, options`.  The options argument can contain a lot of properties, but the one we need here is a hash `options.locals`.  Every key, value pair in the `options.locals` object is turned into a local var in the compile process.  The source code `key = value` is added with the magic code before your template code.  This creates locals to the compiled template function, hence the name.  Now I can do ...
+
+	fontSize = 96
+	helloTemplate = -> 
+		div style:"font-size:#{fontSize}px", 'Hello World'
+
+	CoffeeKup.render helloTemplate, locals: {fontSize}
+	
+This passes fontSize into the compile operation making it avalable as a local and now my code works.  I tend to use the CoffeeScript shortcut `{fontSize, a, b, c}` a lot.  This creates `{fontSize:fontSize, a:a, b:b, c:c}`.  So now `fontSize`, `a`, `b`, and `c` are "passed in" to the template to be available as a local.
+
+Time for another wrench in the works.  What happens if you change the value of fontSize between the time you compile the template and the time you render it?  The local value in the template doesn't change.  The original value was "baked" in to the source code of the compiled template.  So you have to think of the `options.locals` values as constants.  This is especially a problem if you compile once and render multiple times, which the `render` function will do by default if you call `render` more than once with the same source template function.
+	
+Another option, `dynamic_locals`, comes to the rescue.  Setting `options.dynamic_locals` to true causes all the locals passed in through `options.locals` to be able to change between uses of the compiled template.  I have personally not used this feature for two reasons.  One is that I've never used a compiled template more than once (duh).  But a more serious reason is that `dynamic_locals` works its magic by enclosing all the template code in a JavaScript `with` statement.  I'm sure you've heard the experts whine about how evil the `with` statement is.  Well, even if you disagree with them (as I do) then you should still consider that the upcoming `strict` context will not allow any `with` statement at all.  It might be nice to use strict in the future.
+
+I should also mention that you can define another option object, called `options.context`, that makes locals available to the template like `options.locals` does.  This is passed in as the context to the compiled function so the values are available on the `this` object, or `@` as we CoffeScript nuts know it.  So `@fontSize` could be used.  Some might consider this safer from a namespace standpoint and/or more readable as it makes the passed-in locals stand out.
+
+The Option To Use Options
+---
+In summary, here is the list of all options as of this writing ...
+
+- `options.locals`: An object containing key/value pairs to be passed in to the template as constants.  See the last section.
+
+- `options.dynamic_locals`: If `true` then `options.locals` are made dynamic by using the JavaScript `with` statement.  See the last section.
+
+- `options.context`: Passed in to the template as the context object, aka `this` or `@`.  See the last section.
+
+- `options.format`: If `true`, then returns and indentation are added to the compiled source to make it "pretty".  The default is `false`.
+	
+- `options.autoescape`: If `true` then any html entities are escaped in the rendered template.  i.e. `&` is changed to `&amp;`, `<` to `&lt`, etc.  The default is `false`.
+
+Homemade Html
+--- 
+I mentioned earlier in the section _Lonely Text_ that text added with CoffeeCup can be plain html that is passed through without being treated as CoffeeKup code.  It is as easy as saying ...
+
+	div "<div>I'm a homemade div in a div</div>"
+	text "<div>I'm an orphan div without no parent div</div>"
+	
+In order to do this, you must make sure the `autoescape` option is `off` (`false`).  Otherwise you will be surprised, as I was, to see the html code in your web page.
+
+Waht the heck are Helpers, Express, Zappa, and Meryl?
+---
+No, seriously, I don't know what these are. (I do know who Zappa was.  He was one of my favorites in the good old days).  Someone needs to explain them to me as I am too lazy to Google them.  Better yet, please issue a Pull Request to add explanations of them to this document.
 
 Where To Go From Here
 ---
+I'm sure I've missed some topics other than just helpers.  Leave an issue on [this github] (https://github.com/mark-hahn/coffeekup-intro) if you think of any.  Meanwhile, to keep up on the latest CoffeeKup developments, check in on CoffeeKup's [github page] (https://github.com/mauricemach/coffeekup). As I said before, currently the only discussion of CoffeeKup is on CoffeeKup's [issues page] (https://github.com/mauricemach/coffeekup/issues?sort=created&direction=desc). Someone should create a Google Group for CoffeeKup.
 
 Credit Where Credit Is Due
 ---
-
+Of course the most credit goes to Maurice Machado, aka [@mauricemach] (https://github.com/mauricemach) who wrote CoffeeKup.  Maurice (and we) are indebted to Tim Fletcher who wrote Markaby ("Markup as Ruby") the predecessor and inspiration for CoffeeKup.
