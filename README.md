@@ -101,7 +101,7 @@ The `for` loop simply executes its block of code, which happens to output a para
 
 Note also the use of the variable `i` in the text string. It is evaluated and added to the string, which is called interpolation.  The syntax `#{i}` that mixes it in is straight CoffeeScript.  Once again CoffeeKup got a cool feature for free from CoffeeScript.  It looks almost like a more traditional template syntax such as _mustache_, which would have {{i}}.  Remember that this CoffeeScript interpolation only works inside double quotes `"`, not single.
 
-Variables can be defined and used freely in your CoffeeKup template.  In a later section, _Running In Context_, we will see that variables can be used that are defined outside of the template.
+Variables can be defined and used freely in your CoffeeKup template.  In a later section, _Keeping Things In Context_, we will see that variables can be used that are defined outside of the template.
 
 Cool Formatting
 ---
@@ -154,7 +154,7 @@ I'll assume you know how to install coffekup.  You should know how to install mo
 
 The `coffeekup` namespace object you just created has the functions you need to run and a lot of other usefull stuff as properties.  Of course you can use any name for the namespace object, but we'll stick with `coffeekup` here. 
 
-Next, we need to include our CoffeeKup template.  This is just a function assigned to a var.  Lets use a new simpler hello world example ...
+Next, we need to include our CoffeeKup template.  This is just a function assigned to a var.  Let's use a new simpler hello world example ...
 
 	helloTemplate = -> 
 		div style:'font-size:96px', 'Hello World'
@@ -181,11 +181,11 @@ Or if you are maniac who likes unreadable source files ...
 	
 This tiny code will display those giant words.  You might wonder though, how can we use the `div` function when it was never defined?  Surely it isn't defined as a global by CoffeeKup?  That would be uncool, and to be proper coding style it would need to be `CoffeeKup.div`, which kind of defeats the purpose of CoffeeKup.  It also can't be a local which would have required an `eval` somewhere.
 
-The answer is that it is inside a function that is only defined and not executed before it is passed as an argument to `CoffeeKup.render`.  From there, `render` "compiles" the function.  It does this by using the wonderful `toString()` function to get the original source code.  Then it adds the magic code to the beginning and end of the source, as described in the first section above.  And finally it turns it back into a function using `new Function srcCode`.  Now we have a function that includes the definition for `div` so the problem is solved.  Note that this "compiling" turns a function into another function, which is why I put the quotes around the word "compile".  I'll leave them out to save typing from here on.
+The answer is that `div` is inside a function that is only defined and not executed before it is passed as an argument to `CoffeeKup.render`.  From there, `render` "compiles" the function.  It does this by using the wonderful `toString()` function to get the original source code.  Then it adds the magic code to the beginning and end of the source, as described in the first section above.  And finally it turns it back into a function using `new Function srcCode`.  Now we have a function that includes the definition for `div` so the problem is solved.  Note that this "compiling" turns a function into another function, which is why I put the quotes around the word "compile".  I'll leave them out to save typing from here on.
 
 `CoffeeKup.render helloTemplate` calls `CoffeeKup.compile helloTemplate` to produce this tricked-out function.  Then simply executing the new compiled function renders the html.  
 
-You can do `compiledFunc = CoffeeKup.compile helloTemplate` yourself and keep the compiled template function around for speedy rendering later.  Later, just execute `compiledFunc()` to get the coveted html.  You can also just let `CoffeeKup.render` do this for you.  By default, `render` keeps a copy of each compiled template in a cache and uses the compiled version when available.  I've always used this option.
+You can do `compiledFunc = CoffeeKup.compile helloTemplate` yourself and keep the compiled template function around for speedy rendering.  Later, just execute `compiledFunc()` to get the coveted html.  You can also just let `CoffeeKup.render` do this for you.  By default, `render` keeps a copy of each compiled template in a cache and uses the compiled version when available.  I've always used this option.
 
 Keeping Things In Context
 ---
@@ -217,13 +217,15 @@ I should also mention that you can define another option object, called `options
 
 The Option To Use Options
 ---
-In summary, here is the list of all options as of this writing ...
+Let's cover all options here in this one convenient section.  Remember that the signature for `CoffeeKup.render` is `CoffeeKup.render template, options`.  Here is the list of all available options as of this writing ...
 
 - `options.locals`: An object containing key/value pairs to be passed in to the template as constants.  See the last section.
 
 - `options.dynamic_locals`: If `true` then `options.locals` are made dynamic by using the JavaScript `with` statement.  See the last section.
 
 - `options.context`: Passed in to the template as the context object, aka `this` or `@`.  See the last section.
+
+- `options.cache`: If `true`, then `render` keeps all the compiled templates around and skips the compile step when that same template needs rendering.  The default is `true`.
 
 - `options.format`: If `true`, then returns and indentation are added to the compiled source to make it "pretty".  The default is `false`.
 	
@@ -234,7 +236,7 @@ Homemade Html
 I mentioned earlier in the section _Lonely Text_ that text added with CoffeeCup can be plain html that is passed through without being treated as CoffeeKup code.  It is as easy as saying ...
 
 	div "<div>I'm a homemade div in a div</div>"
-	text "<div>I'm an orphan div without no parent div</div>"
+	text "<div>I'm an orphan div with no parent div</div>"
 	
 In order to do this, you must make sure the `autoescape` option is `off` (`false`).  Otherwise you will be surprised, as I was, to see the html code in your web page.
 
@@ -248,4 +250,5 @@ I'm sure I've missed some topics other than just helpers.  Leave an issue on [th
 
 Credit Where Credit Is Due
 ---
-Of course the most credit goes to Maurice Machado, aka [@mauricemach] (https://github.com/mauricemach) who wrote CoffeeKup.  Maurice (and we) are indebted to Tim Fletcher who wrote Markaby ("Markup as Ruby") the predecessor and inspiration for CoffeeKup.
+Of course the most credit goes to Maurice Machado, aka [@mauricemach] (https://github.com/mauricemach) who wrote CoffeeKup.  Maurice (and we) are indebted to Tim Fletcher (and why the lucky stiff {is that a person?}) who wrote Markaby ("Markup as Ruby") the predecessor and inspiration for CoffeeKup.  Let me know of any contributors I've missed.  You can add yourself to this list by helping with this document.  All it takes is a spelling correction.  So far my only spelling correction came from Maurice, who pointed out that I spelled CoffeKup as KoffeeKup everywhere.  It figures that I'd mispell the thing I'm writing about.
+
