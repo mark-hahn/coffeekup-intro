@@ -51,7 +51,7 @@ Any `object` (aka `hash`) used as an argument to a tag function is interpreted a
 Let's look at this more complicated example which ties everything we know together ...
 
 	div id:"another-ugly-box", style:"background-color: purple, border: 5px yellow", ->
-		span (color:"green"), "And I'm ugly text"
+		span color:"green", "And I'm ugly text"
 	
 	<div id="another-ugly-box" style="background-color: purple, border: 5px yellow">
 	  <span color="green">And I'm ugly text</span>
