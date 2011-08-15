@@ -248,5 +248,5 @@ I'm sure I've missed some topics other than just helpers.  Leave an issue on [th
 
 Credit Where Credit Is Due
 ---
-Of course the most credit goes to Maurice Machado, aka [mauricemach] (https://github.com/mauricemach) who wrote CoffeeKup.  Maurice (and we) are indebted to Tim Fletcher (and why the lucky stiff {is that a person?}) who wrote Markaby ("Markup as Ruby") the predecessor and inspiration for CoffeeKup.  Let me know of any contributors I've missed.  You can add yourself to this list by helping with this document.  All it takes is a spelling correction.  So far my only spelling correction came from Maurice, who pointed out that I spelled CoffeeKup as KoffeeKup everywhere.  It figures that I'd mispell the thing I'm writing about.
+Of course the most credit goes to Maurice Machado, aka [mauricemach] (https://github.com/mauricemach) who wrote CoffeeKup.  Maurice (and we) are indebted to Tim Fletcher and Why The Lucky Stiff who wrote Markaby ("Markup as Ruby"), the predecessor and inspiration for CoffeeKup.  Thanks to Loren Sands-Ramshaw for a clean-up pass.  You can add yourself to this list by helping with this document.  All it takes is a spelling correction.  My biggest spelling correction came from Maurice, who pointed out that I spelled CoffeeKup as KoffeeKup everywhere.  It figures that I'd mispell the thing I'm writing about.
 
