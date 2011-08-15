@@ -51,15 +51,13 @@ Any `object` (aka `hash`) used as an argument to a tag function is interpreted a
 Let's look at this more complicated example which ties everything we know together ...
 
 	div id:"another-ugly-box", style:"background-color: purple, border: 5px yellow", ->
-		span (color:"green"), "And I'm ugly text"
+		span color:"green", "And I'm ugly text"
 	
 	<div id="another-ugly-box" style="background-color: purple, border: 5px yellow">
 	  <span color="green">And I'm ugly text</span>
 	</div>
 
 Now it is starting to look like real HTML you'd find on an ugly web page.  
-
-Did you notice the parentheses around `color:"green"`?  In older versions of CoffeeScript this is needed so that the string after it is not treated as part of the hash.  The newest versions of CoffeeScript have changed the rules so this isn't needed.  I'm going to assume the latest version of CoffeeScript in the following examples to keep them prettier.  As of this writing the CoffeeKup online trial page uses an older version of CoffeeScript.  So add the parentheses before trying them out there.
 
 Lonely Text
 ---
@@ -107,13 +105,13 @@ Cool Formatting
 
 If you are fluent in CoffeeScript, then this will be obvious, but there are cool ways to clean up the last example.  There are two or three CoffeeScript features that can be used to turn the four-line example above into this one-liner ...
 
-		(p -> text "I want #{i} hamburgers") for i in [2..4] unless false
+		p "I want #{i} hamburgers" for i in [2..4] unless false
 			
 		<p>I want 2 hamburgers</p>
 		<p>I want 3 hamburgers</p>
 		<p>I want 4 hamburgers</p>
 
-If you don't see how this works, then go do the next lesson in your CoffeeScipt class.  We'll be waiting here until you get back.
+If you don't see how this works, then go do the next lesson in your CoffeeScript class.  We'll be waiting here until you get back.
 
 
 Tag Function Conjunction
@@ -176,6 +174,7 @@ So putting it all together (in the browser) ...
 	
 Or if you are maniac who likes unreadable source files ...
 
+	coffeekup = window.CoffeeKup
 	$('body').append coffeekup.render -> div style:'font-size:96px', 'Hello World'
 	
 This tiny code will display those giant words.  You might wonder though, how can we use the `div` function when it was never defined?  Surely it isn't defined as a global by CoffeeKup?  That would be uncool, and to be proper coding style it would need to be `coffeekup.div`, which kind of defeats the purpose of CoffeeKup.  It also can't be a local which would have required an `eval` somewhere.
