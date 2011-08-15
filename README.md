@@ -1,4 +1,3 @@
-
 A Beginners's Introduction to CoffeeKup 
 ===
 By Mark Hahn
@@ -30,7 +29,7 @@ So how did `head ->` become `<head>`?  And where does the output come from? Ther
 
 The top part of the added code defines a lot of things, the most important of which are the functions who share their names with all the possible HTML tags. These functions, when executed, generate the associated HTML code and append it to a buffer, also defined in the invisible code, that accumulates all of the output HTML. When all of your template code has been executed, the buffer containing the complete HTML is then returned as output by an invisible `return buffer` statement added to the bottom of the template.
 
-Let's walk through the execution of the Hello World template code.  First the `head` function is called with the `title` function as an argument. The `head` function adds the `<head>` text to the buffer, then calls the `title` function which adds it's own HTML to the buffer, and finally adds the closing `</head>`.  
+Let's walk through the execution of the Hello World template code.  First the `head` function is called with one argument, a one-line function that calls `title`. The `head` function adds the `<head>` text to the buffer, then calls the `title` function which adds it's own HTML to the buffer, and finally adds the closing `</head>`.  
 
 The `title` function was called with `"Hello World"` as its only argument. In a case like this, the function only had to wrap `<title>` and `</title>` around the string it was passed and add the whole thing to the buffer.  The `body` function did the same thing as the `head` function except that the function passed to it added nothing to the output buffer.
 
