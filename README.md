@@ -1,10 +1,10 @@
-A Beginners's Introduction to CoffeeKup 
+A Beginner's Introduction to CoffeeKup 
 ===
 By Mark Hahn
 
 CoffeeKup uses a simple scheme to provide a concise, expressive, easy-to-read, and time-saving HTML templating solution. It is based on the CoffeeScript language, with which you will need to be familiar.  If you aren't already hooked on CoffeeScript then visit http://coffeescript.org first to find out what you are missing. Then come back here to also get hooked on CoffeeKup.
 
-This introduction is for CoffeeKup beginners like myself (I'm learning it as I write this). Let's go through this together step by step.  Once you complete this I suggest you go to CoffeeKup's [github page] (https://github.com/mauricemach/coffeekup) to learn more. Currently the only discussion of CoffeeKup is on CoffeeKup's [issues page] (https://github.com/mauricemach/coffeekup/issues?sort=created&direction=desc).
+This introduction is for CoffeeKup beginners like myself (I'm learning it as I write this). Let's go through this together step by step.  Once you complete this I suggest you go to CoffeeKup's [github page](https://github.com/mauricemach/coffeekup) to learn more. Currently the only discussion of CoffeeKup is on CoffeeKup's [issues page](https://github.com/mauricemach/coffeekup/issues?sort=created&direction=desc).
 
 Unlike most tutorials I will not need to help you install CoffeeKup to follow along with the examples. I will give the results of the template with each example. You might also want to bring up http://coffeekup.org in another window and paste these examples into the left pane.  This will allow you to play around with the template and see the results immediately. (This also makes a great tool to use while you are writing your own CoffeeKup code).
 
@@ -40,20 +40,24 @@ Adding Attributes
 
 We know how to insert anything we want for the inner HTML of a tag.  We need only include an arbitrary string as an argument to the tag function.  But how do you put attributes inside the tag itself?  Luckily that is very easy.  Check this out ...
 
-	div id:"ugly-box", style:"width:90px, height:90px, background-color: purple, border: 5px green"
+	div id:"ugly-box", style:"width:90px, height:90px,
+			 background-color: purple, border: 5px green"
 
 	<div id="ugly-box" 
-		 style="width:100px, height:100px, background-color: purple, border: 5px green">
+		 style="width:100px, height:100px, background-color:
+			 purple, border: 5px green">
 	</div>
 
 Any `object` (aka `hash`) used as an argument to a tag function is interpreted as a set of attributes.  The hash keys are the attribute names and the hash values are the attribute values.  In CoffeeScript hashes are created easily and they are perfect for CoffeeKup's attributes.
 
 Let's look at this more complicated example which ties everything we know together ...
 
-	div id:"another-ugly-box", style:"background-color: purple, border: 5px yellow", ->
+	div id:"another-ugly-box", style:"background-color:
+		 purple, border: 5px yellow", ->
 		span color:"green", "And I'm ugly text"
 	
-	<div id="another-ugly-box" style="background-color: purple, border: 5px yellow">
+	<div id="another-ugly-box" style="background-color:
+		 purple, border: 5px yellow">
 	  <span color="green">And I'm ugly text</span>
 	</div>
 
@@ -105,11 +109,11 @@ Cool Formatting
 
 If you are fluent in CoffeeScript, then this will be obvious, but there are cool ways to clean up the last example.  There are two or three CoffeeScript features that can be used to turn the four-line example above into this one-liner ...
 
-		p "I want #{i} hamburgers" for i in [2..4] unless false
-			
-		<p>I want 2 hamburgers</p>
-		<p>I want 3 hamburgers</p>
-		<p>I want 4 hamburgers</p>
+	p "I want #{i} hamburgers" for i in [2..4] unless false
+		
+	<p>I want 2 hamburgers</p>
+	<p>I want 3 hamburgers</p>
+	<p>I want 4 hamburgers</p>
 
 If you don't see how this works, then go do the next lesson in your CoffeeScript class.  We'll be waiting here until you get back.
 
@@ -175,7 +179,8 @@ So putting it all together (in the browser) ...
 Or if you are maniac who likes unreadable source files ...
 
 	coffeekup = window.CoffeeKup
-	$('body').append coffeekup.render -> div style:'font-size:96px', 'Hello World'
+	$('body').append coffeekup.render ->
+		 div style:'font-size:96px', 'Hello World'
 	
 This tiny code will display those giant words.  You might wonder though, how can we use the `div` function when it was never defined?  Surely it isn't defined as a global by CoffeeKup?  That would be uncool, and to be proper coding style it would need to be `coffeekup.div`, which kind of defeats the purpose of CoffeeKup.  It also can't be a local which would have required an `eval` somewhere.
 
@@ -244,9 +249,8 @@ No, seriously, I don't know what these are. (I do know who Zappa was.  He was on
 
 Where To Go From Here
 ---
-I'm sure I've missed some topics other than just helpers.  Leave an issue on [this github] (https://github.com/mark-hahn/coffeekup-intro) if you think of any.  Meanwhile, to keep up on the latest CoffeeKup developments, check in on CoffeeKup's [github page] (https://github.com/mauricemach/coffeekup). As I said before, currently the only discussion of CoffeeKup is on CoffeeKup's [issues page] (https://github.com/mauricemach/coffeekup/issues?sort=created&direction=desc). Someone should create a Google Group for CoffeeKup.
+I'm sure I've missed some topics other than just helpers.  Leave an issue on [this github](https://github.com/mark-hahn/coffeekup-intro) if you think of any.  Meanwhile, to keep up on the latest CoffeeKup developments, check in on CoffeeKup's [github page](https://github.com/mauricemach/coffeekup). As I said before, currently the only discussion of CoffeeKup is on CoffeeKup's [issues page](https://github.com/mauricemach/coffeekup/issues?sort=created&direction=desc). Someone should create a Google Group for CoffeeKup.
 
 Credit Where Credit Is Due
 ---
-Of course the most credit goes to Maurice Machado, aka [mauricemach] (https://github.com/mauricemach) who wrote CoffeeKup.  Maurice (and we) are indebted to Tim Fletcher and Why The Lucky Stiff who wrote Markaby ("Markup as Ruby"), the predecessor and inspiration for CoffeeKup.  Thanks to Loren Sands-Ramshaw for a clean-up pass.  You can add yourself to this list by helping with this document.  All it takes is a spelling correction.  My biggest spelling correction came from Maurice, who pointed out that I spelled CoffeeKup as KoffeeKup everywhere.  It figures that I'd mispell the thing I'm writing about.
-
+Of course the most credit goes to Maurice Machado, aka [mauricemach](https://github.com/mauricemach) who wrote CoffeeKup.  Maurice (and we) are indebted to Tim Fletcher and Why The Lucky Stiff who wrote Markaby ("Markup as Ruby"), the predecessor and inspiration for CoffeeKup.  Thanks to Loren Sands-Ramshaw for a clean-up pass.  You can add yourself to this list by helping with this document.  All it takes is a spelling correction.  My biggest spelling correction came from Maurice, who pointed out that I spelled CoffeeKup as KoffeeKup everywhere.  It figures that I'd mispell the thing I'm writing about.

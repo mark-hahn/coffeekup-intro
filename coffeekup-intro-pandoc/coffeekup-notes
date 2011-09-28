@@ -1,0 +1,23 @@
+
+What's changed?
+
+The spaces between ] and ( in links was removed. The spelling of Beginner's was changed to the more common form. Extra indentation was removed from one section and line breaks were inserted were the code sections would go beyond the margin.
+
+Edit ,s/] \(/]\(/g
+Edit ,s/s's/'s/
+Edit 108,112x/^		/c/	/
+Edit 178 s/->/->\n		/
+Edit 55#52i/\n		/
+Edit 52#52i/\n		/
+Edit 45#54i/\n			/
+Edit 41#52i/\n			/
+
+The text is typeset with XeTeX using {Handwriting - Dakota} for headers, the body is in {Kozuka Gothic Pro}, and the code is rendered with {Inconsolata} --- all using a 10 point base to keep formatting issues to a minimum.
+
+Edit ,>os bash --login -c 'markdown2pdf --strict --xetex --listings --template=/Users/eh/projects/coffeescript/coffeekup-template.tex -o coffeekup-intro.pdf 2>/dev/null; open coffeekup-intro.pdf'
+
+If you like then you can also render the text as HTML:
+
+Edit ,>os bash --login -c 'pandoc -f markdown -t html -s -o /tmp/test.html; open /tmp/test.html'
+
+Hope you enjoy and feel free to change anything. You can consider my contribution to be in the public domain.
